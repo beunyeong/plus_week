@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public class AdminService {
+
     private final UserRepository userRepository;
 
     public AdminService(UserRepository userRepository) {
@@ -17,13 +18,8 @@ public class AdminService {
 
     // TODO: 4. find or save 예제 개선
     @Transactional
-    public void reportUsers(List<Long> userIds) {
-        for (Long userId : userIds) {
-            User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 ID에 맞는 값이 존재하지 않습니다."));
-
-            user.updateStatusToBlocked();
-
-            userRepository.save(user);
-        }
+    public int updateUserStatus(List<Long> userIds, String status) {
+        return userRepository.updateUserStatusInGroup(status, userIds);
     }
+
 }

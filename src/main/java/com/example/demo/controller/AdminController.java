@@ -14,7 +14,7 @@ public class AdminController {
     }
 
     @PostMapping("/report-users")
-    public void reportUsers(@RequestBody ReportRequestDto reportRequestDto) {
-        adminService.reportUsers(reportRequestDto.getUserIds());
+    public void updateUserStatus(@RequestBody ReportRequestDto reportRequestDto) {
+        adminService.updateUserStatus(reportRequestDto.getUserIds(), reportRequestDto.getStatus());
     }
 }
