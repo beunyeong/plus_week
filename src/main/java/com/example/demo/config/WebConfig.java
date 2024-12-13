@@ -3,6 +3,7 @@ package com.example.demo.config;
 import com.example.demo.entity.Role;
 import com.example.demo.filter.AuthFilter;
 import com.example.demo.filter.RoleFilter;
+import com.example.demo.interceptor.AdminRoleInterceptor;
 import com.example.demo.interceptor.AuthInterceptor;
 import com.example.demo.interceptor.UserRoleInterceptor;
 import jakarta.servlet.Filter;
@@ -19,21 +20,37 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     // TODO: 2. 인가에 대한 이해
+    // 로그인(인증)이 필요한 URL
     private static final String[] AUTH_REQUIRED_PATH_PATTERNS = {"/users/logout", "/admins/*", "/items/*"};
+
+    // USER 권한이 필요한 URL
     private static final String[] USER_ROLE_REQUIRED_PATH_PATTERNS = {"/reservations/*"};
+
+    // ADMIN 권한이 필요한 URL
+    private static final String[] ADMIN_ROLE_REQUIRED_PATH_PATTERNS = {"/admin/*"};
 
     private final AuthInterceptor authInterceptor;
     private final UserRoleInterceptor userRoleInterceptor;
+    private final AdminRoleInterceptor adminRoleInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+
+        // 로그인 여부 확인
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns(AUTH_REQUIRED_PATH_PATTERNS)
                 .order(Ordered.HIGHEST_PRECEDENCE);
 
+        // USER 권한 확인
         registry.addInterceptor(userRoleInterceptor)
                 .addPathPatterns(USER_ROLE_REQUIRED_PATH_PATTERNS)
+                .order(Ordered.HIGHEST_PRECEDENCE + 1);
+
+        // ADMIN 권한 확인
+        registry.addInterceptor(adminRoleInterceptor)
+                .addPathPatterns(ADMIN_ROLE_REQUIRED_PATH_PATTERNS)
                 .order(Ordered.HIGHEST_PRECEDENCE + 2);
+
     }
 
     @Bean
