@@ -17,7 +17,9 @@ public class UserRoleInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws UnauthorizedException {
+
         HttpSession session = request.getSession(false);
+
         if (session == null) {
             throw new UnauthorizedException(HttpStatus.UNAUTHORIZED, "세션이 끊어졌습니다.");
         }

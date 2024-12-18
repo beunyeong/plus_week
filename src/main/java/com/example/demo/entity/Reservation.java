@@ -2,8 +2,6 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,6 +10,9 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus status;
 
     @ManyToOne
     @JoinColumn(name = "item_id")
@@ -25,9 +26,9 @@ public class Reservation {
 
     private LocalDateTime endAt;
 
-    private String status; // PENDING, APPROVED, CANCELED, EXPIRED
 
-    public Reservation(Item item, User user, String status, LocalDateTime startAt, LocalDateTime endAt) {
+    public Reservation(Item item, User user, ReservationStatus status,
+                       LocalDateTime startAt, LocalDateTime endAt) {
         this.item = item;
         this.user = user;
         this.status = status;
@@ -37,7 +38,11 @@ public class Reservation {
 
     public Reservation() {}
 
-    public void updateStatus(String status) {
-        this.status = status;
+    public void validateStatusTransition(ReservationStatus newStatus) {
+        this.status.validateTransition(newStatus);
+    }
+
+    public void updateStatus(ReservationStatus newStatus) {
+        this.status = newStatus;
     }
 }

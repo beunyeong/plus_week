@@ -26,7 +26,7 @@ public class WebConfig implements WebMvcConfigurer {
     // USER 권한이 필요한 URL
     private static final String[] USER_ROLE_REQUIRED_PATH_PATTERNS = {"/reservations/*"};
 
-    // ADMIN 권한이 필요한 URL
+    // ADMIN 권한이 필요한 URL(추가)
     private static final String[] ADMIN_ROLE_REQUIRED_PATH_PATTERNS = {"/admin/*"};
 
     private final AuthInterceptor authInterceptor;
@@ -46,7 +46,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns(USER_ROLE_REQUIRED_PATH_PATTERNS)
                 .order(Ordered.HIGHEST_PRECEDENCE + 1);
 
-        // ADMIN 권한 확인
+        // ADMIN 권한 확인(추가)
         registry.addInterceptor(adminRoleInterceptor)
                 .addPathPatterns(ADMIN_ROLE_REQUIRED_PATH_PATTERNS)
                 .order(Ordered.HIGHEST_PRECEDENCE + 2);

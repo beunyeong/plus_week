@@ -2,12 +2,17 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 
 
 @Entity
 @Getter
+@Setter
+@DynamicInsert      // 데이터를 보내지 않은 경우 기본값으로 입력(추가)
 // TODO: 6. Dynamic Insert
 public class Item {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,4 +40,5 @@ public class Item {
     }
 
     public Item() {}
+
 }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
@@ -28,4 +27,18 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             @Param("startAt") LocalDateTime startAt,
             @Param("endAt") LocalDateTime endAt
     );
+
+
+    // 2. 전체 예약 조회
+    @Query("SELECT r FROM  Reservation r JOIN FETCH r.user JOIN FETCH r.item")
+    List<Reservation> findAllWithUserAndItem();
+
+
+    // 7. 리팩로링 관련 메서드
+    default Reservation findByIdOrThrow(Long id) {
+        return findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 ID에 맞는 데이터가 존재 하지 않습니다."));
+    }
+
 }
+

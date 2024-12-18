@@ -7,6 +7,10 @@ import java.util.List;
 @Getter
 public class ReportRequestDto {
     private List<Long> userIds;
+    private String status;
 
-    public ReportRequestDto() {}
+    public ReportRequestDto(List<Long> userIds, String status) {
+        this.userIds = userIds;
+        this.status = status;
+    }
 }
