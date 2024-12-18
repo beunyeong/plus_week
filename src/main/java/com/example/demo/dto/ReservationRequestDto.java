@@ -10,4 +10,12 @@ public class ReservationRequestDto {
     private Long userId;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
+
+    public ReservationRequestDto(Long itemId, Long userId, String startAt, String endAt) {
+        this.itemId = itemId;
+        this.userId = userId;
+        this.startAt = LocalDateTime.parse(startAt);
+        this.endAt = LocalDateTime.parse(endAt);
+    }
+
 }
