@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/demotest_test
+    username: root
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+      show-sql: true
+      properties:
+        hibernate:
+         format_sql: true
+
+        datasource:
+          initialization-mode: always
